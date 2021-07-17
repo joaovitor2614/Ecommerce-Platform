@@ -1,0 +1,18 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "This was a storage, sales, cash management app built specifically for a petshop business, in this project you can register new products on the storage, make real time sales with immediate updates  on the storage and see your history and total cash earned on daily and monthly sales.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm start --prefix client",
+    "server": "npm run server --prefix server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "deep-email-validator": "^0.1.18"
+  }
+}
