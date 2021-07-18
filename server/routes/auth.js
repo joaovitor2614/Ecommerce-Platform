@@ -9,7 +9,8 @@ const User = require('../models/User');
 const emailVerify = require('../middlewares/emailVerify');
 
 // schema
-const registerSchema = require('../middlewares/validation/registerSchema')
+const registerSchema = require('../middlewares/validation/registerSchema');
+const loginSchema = require('../middlewares/validation/loginSchema');
 
 // create router
 const router = express.Router()
@@ -17,7 +18,7 @@ const router = express.Router()
 //method POST /api/auth
 //desc register users
 // Public
-router.post('/', checkSchema(registerSchema), emailVerify, async (req, res) => {
+router.post('/', checkSchema(registerSchema), async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({
@@ -70,6 +71,61 @@ router.post('/', checkSchema(registerSchema), emailVerify, async (req, res) => {
         });
 
         await user.save();
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send('Server error')
+        
+    }
+
+})
+
+
+//method POST /api/auth/login
+//desc login users
+// Public
+router.post('/login', checkSchema(loginSchema), async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        })
+    }
+    const { email, password } = req.body;
+
+    try {
+        // check if there is a user already with the email provided
+        let user = await User.findOne({ email });
+        const wrongCredentialMsg = 'Invalid credentials'
+        if (!user) {
+            return res.status(400)
+            .json({ errors: [{ msg: wrongCrendentialMsg }] })
+        }
+
+        // check password
+        const isMatch = bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ errors: [{ msg:  wrongCrendentialMsg }] })
+        }
+
+        // jwt payload
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+        
+        // sign token
+        jwt.sign(
+            payload, 
+            process.env.JWT_SECRET,
+            { expiresIn: '2h' },
+            (err, token) => {
+                if (err) throw err;
+                // return token
+                res.json({ token })
+        });
+
+
     } catch (err) {
         console.log(err.message)
         res.status(500).send('Server error')

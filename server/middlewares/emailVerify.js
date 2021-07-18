@@ -11,6 +11,7 @@ const emailVerify = async (req, res, next) => {
   // check if if there's email in the body
   if (!req.body.email) {
     return res.status(401).json({ msg: 'No email was sent' });
+    next()
   }
   const { email } = req.body.email;
   try {
