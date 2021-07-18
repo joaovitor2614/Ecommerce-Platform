@@ -4,8 +4,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const jwtVerify = (req, res, next) => {
-    const token = req.cookies['token'];
-    // const token = req.header('x-auth-token');
+    //const token = req.cookies['token'];
+     const token = req.header('x-auth-token');
     // if there is not token in the request
     if (!token) {
         return res.status(401).json({ msg: 'No token, authorization denied' });

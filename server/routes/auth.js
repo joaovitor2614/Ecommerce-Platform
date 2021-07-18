@@ -69,7 +69,7 @@ router.post('/', checkSchema(registerSchema), async (req, res) => {
                 // return token
                 res.json({ token })
         });
-
+     
         await user.save();
     } catch (err) {
         console.log(err.message)

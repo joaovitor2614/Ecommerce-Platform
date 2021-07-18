@@ -27,14 +27,16 @@ const UserSchema = new mongoose.Schema({
         min: 6,
         max: 10,
        },
+
     useEmailAvatar: {
         type: Boolean,
         default: false
     },
+    avatar: String,
     date: {
         type: Date,
         default: Date.now
     }
 });
 
-module.exports = User = mongoose.model('products', UserSchema);
+module.exports = User = mongoose.model('users', UserSchema);

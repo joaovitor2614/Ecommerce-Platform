@@ -10,7 +10,8 @@ app.use(express.json({ extended: false }));
 
 
 // auth routes
-app.use('/api/auth', require('./routes/auth'))
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/products', require('./routes/products'));
 
 
 

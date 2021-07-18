@@ -48,7 +48,19 @@ const registerSchema = {
             errorMessage: maxMessage('Email', 30),
             options: { max: 30 }
         }
-    }
+    },
+   
 }
 
 module.exports = registerSchema
+/*
+ useEmailAvatar: {
+        notEmpty: false,
+        isBoolean: true,
+        errorMessage: 'Use email avatar field should be a boolean'
+    },
+    date: {
+        isDate: true,
+        notEmpty: false,
+    }
+    */
